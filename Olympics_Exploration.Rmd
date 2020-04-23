@@ -1,0 +1,23 @@
+---
+title: "Olympics Exploration"
+author: "Calvin Skalla"
+date: "4/22/2020"
+output: html_document
+---
+
+# Data Importing and Cleaning
+```{r}
+library(dplyr)
+
+#Importing data
+results <- read.csv("data/athlete_events.csv")
+
+#Wrestling data
+wrestling <- filter(results, Sport == "Wrestling") %>% na.omit()
+```
+
+# Top Wrestling Countries
+```{r}
+rankings <- summarize(group_by(wrestling, Team), Medals = count(wrestling$Medals, na.rm = TRUE))
+```
+
