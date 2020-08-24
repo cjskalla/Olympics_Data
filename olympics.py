@@ -1,6 +1,7 @@
 #OLYMPICS
 import pandas as pd 
 import numpy as np 
+import matplotlib.pyplot as plt
 
 #Reading in the data
 data = pd.read_csv("data/athlete_events.csv")
@@ -15,9 +16,32 @@ data['Medal'] = data['Medal'].map(medal_mapping)
 mma = ["Wrestling", "Boxing", "Judo", "Taekwondo", "Weightlifting"]
 mma_data = data[data.Sport.isin(mma)]
 
-#Grouping Countries Medal Counts
-mma_data.groupby('Team')['Medal'].unique()
+#Creating Gold, Silver, Bronze, and no medal dataframes
+gold_data = mma_data[mma_data.Medal == 1]
+silver_data = mma_data[mma_data.Medal == 2]
+bronze_data = mma_data[mma_data.Medal == 3]
+no_medal_data = mma_data[mma_data.Medal == 0]
 
-#Bargraph
-#bar = data.plot.bar(x='Team', y='Medal', rot=0)
+#Calculating totals for each country
+mma_gold = pd.DataFrame(gold_data.groupby('Team')['Medal'].count())
+mma_gold = mma_gold.rename(columns={'Medal': 'Gold'})
 
+mma_silver = pd.DataFrame(silver_data.groupby('Team')['Medal'].count())
+mma_silver = mma_silver.rename(columns={'Medal': 'Silver'})
+
+mma_bronze = pd.DataFrame(bronze_data.groupby('Team')['Medal'].count())
+mma_bronze = mma_bronze.rename(columns={'Medal': 'Bronze'})
+
+mma_no_medal = pd.DataFrame(no_medal_data.groupby('Team')['Medal'].count())
+mma_no_medal = mma_no_medal.rename(columns={'Medal': 'NoMedal'})
+
+#Joining MMA Medal Counts
+mma_medal_count = pd.merge(mma_gold, mma_silver, on='Team')
+mma_medal_count = pd.merge(mma_medal_count, mma_bronze, on='Team')
+mma_medal_count = pd.merge(mma_medal_count, mma_no_medal, on='Team')
+mma_medal_count.assign(Participants=mma_medal_count['Gold']+
+                                        mma_medal_count['Silver']+
+                                        mma_medal_count['Bronze']+
+                                        mma_medal_count['NoMedal'])
+
+#Graph
