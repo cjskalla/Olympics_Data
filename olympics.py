@@ -41,14 +41,13 @@ mma_medal_count = pd.merge(mma_gold, mma_silver, on='Team')
 mma_medal_count = pd.merge(mma_medal_count, mma_bronze, on='Team')
 mma_medal_count = pd.merge(mma_medal_count, mma_no_medal, on='Team')
 #mma_medal_count = mma_medal_count.assign(Participants=
-                                        #mma_medal_count['Gold']+
-                                        #mma_medal_count['Silver']+
-                                        #mma_medal_count['Bronze']+
-                                        #mma_medal_count['NoMedal'])
+                    #mma_medal_count['Gold']+
+                    #mma_medal_count['Silver']+
+                    #mma_medal_count['Bronze']+
+                    #mma_medal_count['NoMedal'])
 
 #Graph
 colors = ["gold", "silver", "chocolate", "lightblue"]
-sns.palplot(sns.xkcd_palette(colors))
 mma_sort_data = mma_medal_count.nlargest(15, ['Gold', 'Silver', 'Bronze'])
 mma_sort_data.plot(color=colors, kind='barh', stacked=True)
 plt.ylabel('Team')
