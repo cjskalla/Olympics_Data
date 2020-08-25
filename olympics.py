@@ -39,9 +39,12 @@ mma_no_medal = mma_no_medal.rename(columns={'Medal': 'NoMedal'})
 mma_medal_count = pd.merge(mma_gold, mma_silver, on='Team')
 mma_medal_count = pd.merge(mma_medal_count, mma_bronze, on='Team')
 mma_medal_count = pd.merge(mma_medal_count, mma_no_medal, on='Team')
-mma_medal_count.assign(Participants=mma_medal_count['Gold']+
-                                        mma_medal_count['Silver']+
-                                        mma_medal_count['Bronze']+
-                                        mma_medal_count['NoMedal'])
+#mma_medal_count = mma_medal_count.assign(Participants=
+                                        #mma_medal_count['Gold']+
+                                        #mma_medal_count['Silver']+
+                                        #mma_medal_count['Bronze']+
+                                        #mma_medal_count['NoMedal'])
 
 #Graph
+mma_sort_data = mma_medal_count.nlargest(15, ['Gold', 'Silver', 'Bronze'])
+mma_sort_data.plot(kind='barh', stacked=True)
