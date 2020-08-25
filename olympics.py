@@ -2,6 +2,7 @@
 import pandas as pd 
 import numpy as np 
 import matplotlib.pyplot as plt
+import seaborn as sns
 
 #Reading in the data
 data = pd.read_csv("data/athlete_events.csv")
@@ -13,7 +14,7 @@ data['Medal'] = data['Medal'].fillna(0)
 data['Medal'] = data['Medal'].map(medal_mapping)
 
 #Extracting MMA sports dataset
-mma = ["Wrestling", "Boxing", "Judo", "Taekwondo", "Weightlifting"]
+mma = ["Wrestling", "Boxing", "Judo", "Taekwondo"]
 mma_data = data[data.Sport.isin(mma)]
 
 #Creating Gold, Silver, Bronze, and no medal dataframes
@@ -46,5 +47,11 @@ mma_medal_count = pd.merge(mma_medal_count, mma_no_medal, on='Team')
                                         #mma_medal_count['NoMedal'])
 
 #Graph
+colors = ["gold", "silver", "chocolate", "lightblue"]
+sns.palplot(sns.xkcd_palette(colors))
 mma_sort_data = mma_medal_count.nlargest(15, ['Gold', 'Silver', 'Bronze'])
-mma_sort_data.plot(kind='barh', stacked=True)
+mma_sort_data.plot(color=colors, kind='barh', stacked=True)
+plt.ylabel('Team')
+plt.xlabel("Participants")
+plt.title("Mixed Martial Arts Olympic History")
+plt.show()
