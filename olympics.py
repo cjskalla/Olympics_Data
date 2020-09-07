@@ -46,7 +46,7 @@ martial_art_medal_count = pd.merge(martial_art_medal_count, martial_art_no_medal
                     #martial_art_medal_count['Bronze']+
                     #martial_art_medal_count['NoMedal'])
 
-#Graph
+#Graphs
 colors = ["gold", "silver", "chocolate", "lightblue"]
 martial_art_sort_data = martial_art_medal_count.nlargest(15, ['Gold', 'Silver', 'Bronze'])
 martial_art_sort_data.plot(color=colors, kind='barh', stacked=True)
